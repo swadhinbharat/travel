@@ -1,0 +1,76 @@
+managed
+implementation in class zbp_sw_i_travel unique;
+with draft;
+
+
+define behavior for ZSW_I_Travel alias Travel
+with additional save
+persistent table zsw_travel
+draft table zsw_travel_d
+lock master
+//authorization master ( instance )
+etag master LastChangedAt
+
+{
+
+  field ( numbering : managed, readonly ) TravelUUID;
+
+  // administrative fields: read only
+  field ( readonly ) LastChangedAt, LastChangedBy, CreatedBy, CreatedAt;
+
+  // mandatory fields that are required to create a travel
+  field ( mandatory ) agencyid, overallstatus, bookingfee, currencycode;
+
+  // dynamic field control
+  field ( features : instance ) travelid;
+
+  // mapping entity's field types with table field types
+  mapping for zsw_travel
+  {
+    TravelUUID = mykey;
+    TravelId = travel_id;
+    AgencyId = agency_id;
+    CustomerId = customer_id;
+    BeginDate = begin_date;
+    EndDate = end_date;
+    BookingFee = booking_fee;
+    TotalPrice = total_price;
+    CurrencyCode = currency_code;
+    Description = description;
+    OverallStatus = overall_status;
+    CreatedBy = created_by;
+    CreatedAt = created_at;
+    LastChangedBy = last_changed_by;
+    LastChangedAt = last_changed_at;
+  }
+
+  // standard operations for travel entity
+  create;
+  update;
+  delete;
+
+  //  // instance action and dynamic action control
+  //  //action  ( features: instance, authorization : none ) acceptTravel result [1] $self;
+  //  action  ( features: instance ) acceptTravel result [1] $self;
+  //  action  ( features: instance ) rejectTravel result [1] $self;
+  //
+  //  // instance action for copying travel instances
+  //  //action ( authorization : none ) createTravelByTemplate result [1] $self;
+  //  action createTravelByTemplate result [1] $self;
+  //  static action newAction parameter ZSW_A_Keys result [1] $self;
+  //  static factory action test [1] ;
+
+  //  // validations
+  //  validation validateCustomer on save { field customer_id; }
+  //  validation validateAgency   on save { field agency_id; }
+  //  validation validateDates    on save { field begin_date, end_date; }
+  //  validation validateStatus   on save { field overall_status; }
+  //
+  //
+  //
+  //  // create booking by association
+  //  association _Booking { create (features:instance); }
+
+
+
+}

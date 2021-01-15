@@ -1,0 +1,4 @@
+@EndUserText.label: 'Travel Processing'
+define service ZSW_SD_TravelProcessing {
+  expose ZSW_C_Travel as Travel;
+}
